@@ -1,0 +1,289 @@
+{
+  "_doc": "Fonte única da estrutura de agentes deste departamento de vídeo. Alimenta o verificador (scripts/check.mjs) e o grafo ao vivo (viewer/). Quando surge um domínio sem dono, o maestro adiciona o agente AQUI e cria o arquivo .claude/agents/<key>.md. Tipos: meta (governam a estrutura), domain (donos de uma etapa do pipeline), sub (especialização de um domain).",
+  "project": "video-editor — departamento de produção e edição de vídeo (raw → editado → exportado)",
+  "agents": [
+    {
+      "key": "maestro",
+      "name": "Maestro",
+      "type": "meta",
+      "parent": null,
+      "color": "#C9A96A",
+      "description": "CRIAR e governar agentes. Só isso — quem decide qual agente usa é o dispatcher.",
+      "memory": [
+        "how-it-works.md",
+        "the-loop.md"
+      ]
+    },
+    {
+      "key": "librarian",
+      "name": "Librarian",
+      "type": "meta",
+      "parent": null,
+      "color": "#8AC96A",
+      "description": "Cuidar da MEMÓRIA: destilar aprendizado em fatos e manter o índice.",
+      "memory": [
+        "memory-format.md"
+      ]
+    },
+    {
+      "key": "calibrator",
+      "name": "Calibrator",
+      "type": "meta",
+      "parent": null,
+      "color": "#B06AC9",
+      "description": "VERIFICAR a coerência da estrutura e apontar desvios. Só aponta — não conserta.",
+      "memory": [
+        "auto-loop-hooks.md",
+        "the-check.md"
+      ]
+    },
+    {
+      "key": "graphics",
+      "name": "Graphics",
+      "type": "domain",
+      "parent": null,
+      "color": "#6AC9B0",
+      "description": "Construir os GRÁFICOS que entram no vídeo. Só isso — não escreve roteiro, não monta o corte final.",
+      "memory": [
+        "safe-zones.md"
+      ]
+    },
+    {
+      "key": "audio",
+      "name": "Audio",
+      "type": "domain",
+      "parent": null,
+      "color": "#C9846A",
+      "description": "Dono do SOM do vídeo: sintetizar as falas e entregar o áudio normalizado. Escolha de voz é do voice-casting; trilha é do music-bed.",
+      "memory": [
+        "perfil-de-fala-do-cliente.md",
+        "portuguese-tts.md",
+        "tts-elevenlabs.md",
+        "voice-id-reuso.md",
+        "voz-com-cara-de-ia.md",
+        "vozes-elevenlabs-ptbr.md"
+      ]
+    },
+    {
+      "key": "ai-generation",
+      "name": "AI Generation",
+      "type": "domain",
+      "parent": null,
+      "color": "#9A6AC9",
+      "description": "CHAMAR os modelos de geração (Higgsfield CLI) e trazer o arquivo pronto. Só a execução da geração — quem escreve o prompt é image-prompt/video-prompt, quem escolhe a config é cost-control.",
+      "memory": [
+        "audio-references-gotcha.md",
+        "cenario-story-do-cliente.md",
+        "clipe-longo-em-beats.md",
+        "higgsfield-cli.md",
+        "influencer-falando.md",
+        "influencer-nao-chega-na-cena.md",
+        "lipsync-veo-vs-wan.md",
+        "rosto-que-nao-pisca.md",
+        "seedance-2-audio-nativo.md",
+        "token-do-higgsfield-rotaciona.md",
+        "job-cobrado-recuperavel.md"
+      ]
+    },
+    {
+      "key": "formats",
+      "name": "Formats",
+      "type": "domain",
+      "parent": null,
+      "color": "#C9C16A",
+      "description": "Manter e escolher o MODELO de vídeo (M1–M8) que o pedido deve seguir. Só a direção de formato — não escreve o roteiro.",
+      "memory": [
+        "perfil-de-fala-do-cliente.md"
+      ]
+    },
+    {
+      "key": "character-consistency",
+      "name": "Character consistency",
+      "type": "sub",
+      "parent": "ai-generation",
+      "color": "#9A6AC9",
+      "description": "Especialização do ai-generation: mantém o MESMO rosto e a MESMA voz entre cenas e episódios (retratos-âncora, image-references, voz fixa por personagem) e monta cenas de diálogo com vários personagens fiéis no mesmo quadro.",
+      "memory": [
+        "cenario-story-do-cliente.md",
+        "character-anchors.md",
+        "dialogo-multi-personagem.md",
+        "influencer-nao-chega-na-cena.md"
+      ]
+    },
+    {
+      "key": "cost-control",
+      "name": "Cost control",
+      "type": "sub",
+      "parent": "ai-generation",
+      "color": "#9A6AC9",
+      "description": "Especialização do ai-generation: escolhe a configuração mais barata que atende o formato (imagem vs vídeo, mini vs fast, 480p vs 720p) e vigia o saldo de créditos — inclusive o gasto de LLM registrado no ledger.",
+      "memory": [
+        "cost-model.md",
+        "lipsync-veo-vs-wan.md",
+        "rosto-que-nao-pisca.md",
+        "seedance-2-audio-nativo.md",
+        "token-do-higgsfield-rotaciona.md",
+        "job-cobrado-recuperavel.md"
+      ]
+    },
+    {
+      "key": "platform",
+      "name": "Platform",
+      "type": "domain",
+      "parent": null,
+      "color": "#C96AC9",
+      "description": "Decidir o ESCOPO do produto: o que cada página é e o que entra em cada release.",
+      "memory": [
+        "influencer-nao-chega-na-cena.md",
+        "seedance-2-audio-nativo.md"
+      ]
+    },
+    {
+      "key": "backend",
+      "name": "Backend",
+      "type": "domain",
+      "parent": null,
+      "color": "#6A8AC9",
+      "description": "Construir API, fila e worker. Só o servidor — telas são do frontend.",
+      "memory": [
+        "influencer-falando.md",
+        "influencer-nao-chega-na-cena.md"
+      ]
+    },
+    {
+      "key": "dispatcher",
+      "name": "Dispatcher",
+      "type": "meta",
+      "parent": null,
+      "color": "#E8C46A",
+      "description": "PORTA DE ENTRADA: recebe todo pedido, identifica a ação e roteia para o especialista dono dela. Se não existe especialista para aquela ação, aciona o maestro para criar antes de executar.",
+      "memory": [
+        "especializacao-sob-demanda.md",
+        "roteamento-de-tarefas.md"
+      ]
+    },
+    {
+      "key": "screenwriter",
+      "name": "Screenwriter",
+      "type": "domain",
+      "parent": null,
+      "color": "#C96A6A",
+      "description": "Escrever ROTEIRO: transformar um tema em cenas com fala, beat a beat. Só isso — não gera mídia, não monta, não escolhe voz.",
+      "memory": [
+        "clipe-longo-em-beats.md",
+        "perfil-de-fala-do-cliente.md",
+        "voz-com-cara-de-ia.md"
+      ]
+    },
+    {
+      "key": "editor",
+      "name": "Editor",
+      "type": "domain",
+      "parent": null,
+      "color": "#6AC98A",
+      "description": "MONTAR o corte final: ordenar clipes, casar áudio com imagem, aplicar a timeline. Só a montagem — não gera mídia nem escreve legenda.",
+      "memory": [
+        "influencer-falando.md"
+      ]
+    },
+    {
+      "key": "qa",
+      "name": "QA",
+      "type": "domain",
+      "parent": null,
+      "color": "#C9C96A",
+      "description": "VERIFICAR o entregável antes de sair: conferir se o render cumpre os padrões. Só verifica e reprova — não conserta.",
+      "memory": [
+        "lipsync-veo-vs-wan.md",
+        "rosto-que-nao-pisca.md",
+        "safe-zones.md"
+      ]
+    },
+    {
+      "key": "image-prompt",
+      "name": "Image prompt",
+      "type": "sub",
+      "parent": "ai-generation",
+      "color": "#9A6AC9",
+      "description": "Escrever o PROMPT DE IMAGEM que gera a cena pedida no estilo certo.",
+      "memory": [
+        "cenario-story-do-cliente.md",
+        "dialogo-multi-personagem.md"
+      ]
+    },
+    {
+      "key": "video-prompt",
+      "name": "Video prompt",
+      "type": "sub",
+      "parent": "ai-generation",
+      "color": "#9A6AC9",
+      "description": "Escrever o PROMPT DE CLIPE de vídeo: ação, movimento de câmera e continuidade.",
+      "memory": [
+        "audio-references-gotcha.md",
+        "clipe-longo-em-beats.md",
+        "rosto-que-nao-pisca.md"
+      ]
+    },
+    {
+      "key": "voice-casting",
+      "name": "Voice casting",
+      "type": "sub",
+      "parent": "audio",
+      "color": "#C9846A",
+      "description": "ESCOLHER e travar a voz de cada personagem, e mais nada.",
+      "memory": [
+        "influencer-falando.md",
+        "lipsync-veo-vs-wan.md",
+        "perfil-de-fala-do-cliente.md",
+        "tts-elevenlabs.md",
+        "voice-id-reuso.md",
+        "voz-com-cara-de-ia.md",
+        "vozes-elevenlabs-ptbr.md"
+      ]
+    },
+    {
+      "key": "safe-zone-check",
+      "name": "Safe zone check",
+      "type": "sub",
+      "parent": "qa",
+      "color": "#C9C96A",
+      "description": "Conferir APENAS se nada essencial invadiu as faixas de interface da plataforma.",
+      "memory": [
+        "safe-zones.md"
+      ]
+    },
+    {
+      "key": "continuity-check",
+      "name": "Continuity check",
+      "type": "sub",
+      "parent": "qa",
+      "color": "#C9C96A",
+      "description": "Conferir APENAS a continuidade da série: mesmo rosto, mesma voz, nada contradizendo episódio anterior.",
+      "memory": [
+        "character-anchors.md"
+      ]
+    },
+    {
+      "key": "talking-avatar",
+      "name": "Talking avatar",
+      "type": "sub",
+      "parent": "ai-generation",
+      "color": "#C96AA8",
+      "description": "Influencer que FALA na câmera — lip-sync entre o rosto travado e a voz travada.",
+      "memory": [
+        "audio-references-gotcha.md",
+        "cenario-story-do-cliente.md",
+        "character-anchors.md",
+        "clipe-longo-em-beats.md",
+        "influencer-falando.md",
+        "influencer-nao-chega-na-cena.md",
+        "lipsync-veo-vs-wan.md",
+        "perfil-de-fala-do-cliente.md",
+        "rosto-que-nao-pisca.md",
+        "seedance-2-audio-nativo.md",
+        "voice-id-reuso.md",
+        "voz-com-cara-de-ia.md"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+# Credencial do estúdio — NUNCA versione (é o seu segredo do Higgsfield)
+.env
+
+# Sistema / dependências
+.DS_Store
+node_modules/
+__pycache__/
+
+# Os avatares que VOCÊ cria ficam locais — só o modelo vai no repositório.
+# (Contêm imagens/voz do seu avatar; não pertencem a um repo público.)
+avatares/*
+!avatares/_MODELO/
+!avatares/_MODELO/**
+
+# Estado de sessão, se você integrar o OpenClaw
+openclaw-workspace-state.json
